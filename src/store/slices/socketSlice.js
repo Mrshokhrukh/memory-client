@@ -82,7 +82,7 @@ export const initializeSocket = () => (dispatch, getState) => {
     return
   }
 
-  const socket = io(process.env.REACT_APP_SERVER_URL || "http://localhost:5000", {
+  const socket = io(process.env.REACT_APP_SERVER_URL || "https://memory-space-backend.onrender.com", {
     auth: {
       token: auth.token,
     },

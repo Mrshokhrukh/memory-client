@@ -5,7 +5,9 @@ import { showToast } from '../store/slices/uiSlice';
 
 // Create axios instance
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8800/api',
+  baseURL:
+    process.env.REACT_APP_API_URL ||
+    'https://memory-space-backend.onrender.com/api',
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
