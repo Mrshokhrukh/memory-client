@@ -19,6 +19,7 @@ const Capsules = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
 
+  
   useEffect(() => {
     dispatch(fetchCapsules());
   }, [dispatch]);
