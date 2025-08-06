@@ -1,44 +1,44 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
-import { login, clearError } from "../../store/slices/authSlice"
-import Button from "../../components/ui/Button"
-import Input from "../../components/ui/Input"
-import Card from "../../components/ui/Card"
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, clearError } from '../../store/slices/authSlice';
+import Button from '../../components/ui/Button';
+import Input from '../../components/ui/Input';
+import Card from '../../components/ui/Card';
 
 const Login = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const dispatch = useDispatch()
-  const { loading, error } = useSelector((state) => state.auth)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+    email: '',
+    password: '',
+  });
 
-  const from = location.state?.from?.pathname || "/dashboard"
+  const from = location.state?.from?.pathname || '/dashboard';
 
   useEffect(() => {
-    dispatch(clearError())
-  }, [dispatch])
+    dispatch(clearError());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const result = await dispatch(login(formData))
+    e.preventDefault();
+    const result = await dispatch(login(formData));
     if (login.fulfilled.match(result)) {
-      navigate(from, { replace: true })
+      navigate(from, { replace: true });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -49,8 +49,11 @@ const Login = () => {
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
           <p className="mt-2 text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500">
+            Don't have an account?{' '}
+            <Link
+              to="/register"
+              className="font-medium text-primary-600 hover:text-primary-500"
+            >
               Sign up
             </Link>
           </p>
@@ -92,13 +95,19 @@ const Login = () => {
                   type="checkbox"
                   className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <Link to="/forgot-password" className="font-medium text-primary-600 hover:text-primary-500">
+                <Link
+                  to="/forgot-password"
+                  className="font-medium text-primary-600 hover:text-primary-500"
+                >
                   Forgot your password?
                 </Link>
               </div>
@@ -111,7 +120,7 @@ const Login = () => {
         </Card>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

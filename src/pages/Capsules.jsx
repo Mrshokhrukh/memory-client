@@ -1,46 +1,48 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import { fetchCapsules } from "../store/slices/capsuleSlice"
-import Card from "../components/ui/Card"
-import Button from "../components/ui/Button"
-import Input from "../components/ui/Input"
-import LoadingSpinner from "../components/ui/LoadingSpinner"
-import Avatar from "../components/ui/Avatar"
-import { formatRelativeTime } from "../utils/helpers"
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchCapsules } from '../store/slices/capsuleSlice';
+import Card from '../components/ui/Card';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/Input';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import Avatar from '../components/ui/Avatar';
+import { formatRelativeTime } from '../utils/helpers';
 
 const Capsules = () => {
-  const dispatch = useDispatch()
-  const { capsules, loading, pagination } = useSelector((state) => state.capsules)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterType, setFilterType] = useState("all")
+  const dispatch = useDispatch();
+  const { capsules, loading, pagination } = useSelector(
+    (state) => state.capsules
+  );
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterType, setFilterType] = useState('all');
 
   useEffect(() => {
-    dispatch(fetchCapsules())
-  }, [dispatch])
+    dispatch(fetchCapsules());
+  }, [dispatch]);
 
   const filteredCapsules = capsules.filter((capsule) => {
     const matchesSearch =
       capsule.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      capsule.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = filterType === "all" || capsule.type === filterType
-    return matchesSearch && matchesType
-  })
+      capsule.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = filterType === 'all' || capsule.type === filterType;
+    return matchesSearch && matchesType;
+  });
 
   const getTypeColor = (type) => {
     switch (type) {
-      case "public":
-        return "bg-green-100 text-green-800"
-      case "private":
-        return "bg-blue-100 text-blue-800"
-      case "timed":
-        return "bg-purple-100 text-purple-800"
+      case 'public':
+        return 'bg-green-100 text-green-800';
+      case 'private':
+        return 'bg-blue-100 text-blue-800';
+      case 'timed':
+        return 'bg-purple-100 text-purple-800';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-gray-100 text-gray-800';
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,7 +51,9 @@ const Capsules = () => {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">My Capsules</h1>
-            <p className="text-gray-600 mt-2">Manage all your memory capsules</p>
+            <p className="text-gray-600 mt-2">
+              Manage all your memory capsules
+            </p>
           </div>
           <Link to="/create-capsule">
             <Button>Create New Capsule</Button>
@@ -85,7 +89,12 @@ const Capsules = () => {
         ) : filteredCapsules.length === 0 ? (
           <Card className="text-center py-12">
             <div className="text-gray-400 mb-4">
-              <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-16 h-16 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -95,10 +104,12 @@ const Capsules = () => {
               </svg>
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {searchTerm ? "No capsules found" : "No capsules yet"}
+              {searchTerm ? 'No capsules found' : 'No capsules yet'}
             </h3>
             <p className="text-gray-600 mb-4">
-              {searchTerm ? "Try adjusting your search terms" : "Create your first memory capsule to get started"}
+              {searchTerm
+                ? 'Try adjusting your search terms'
+                : 'Create your first memory capsule to get started'}
             </p>
             {!searchTerm && (
               <Link to="/create-capsule">
@@ -114,7 +125,7 @@ const Capsules = () => {
                   {/* Cover Image */}
                   {capsule.coverImage && (
                     <img
-                      src={capsule.coverImage || "/placeholder.svg"}
+                      src={capsule.coverImage || '/placeholder.svg'}
                       alt={capsule.title}
                       className="w-full h-48 object-cover rounded-t-lg -m-6 mb-4"
                     />
@@ -122,10 +133,18 @@ const Capsules = () => {
 
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">{capsule.title}</h3>
-                      <p className="text-sm text-gray-600 line-clamp-2">{capsule.description}</p>
+                      <h3 className="font-semibold text-gray-900 mb-1">
+                        {capsule.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 line-clamp-2">
+                        {capsule.description}
+                      </p>
                     </div>
-                    <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(capsule.type)}`}>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${getTypeColor(
+                        capsule.type
+                      )}`}
+                    >
                       {capsule.type}
                     </span>
                   </div>
@@ -134,9 +153,15 @@ const Capsules = () => {
                   <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                     <div className="flex items-center space-x-4">
                       <span>{capsule.stats?.totalMemories || 0} memories</span>
-                      <span>{capsule.contributors?.length || 0} contributors</span>
+                      <span>
+                        {capsule.contributors?.length || 0} contributors
+                      </span>
                     </div>
-                    <span>{formatRelativeTime(capsule.stats?.lastActivity || capsule.createdAt)}</span>
+                    <span>
+                      {formatRelativeTime(
+                        capsule.stats?.lastActivity || capsule.createdAt
+                      )}
+                    </span>
                   </div>
 
                   {/* Contributors */}
@@ -164,11 +189,13 @@ const Capsules = () => {
                       )}
                     </div>
 
-                    {capsule.type === "timed" && capsule.releaseDate && new Date() < new Date(capsule.releaseDate) && (
-                      <div className="text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded">
-                        Opens {formatRelativeTime(capsule.releaseDate)}
-                      </div>
-                    )}
+                    {capsule.type === 'timed' &&
+                      capsule.releaseDate &&
+                      new Date() < new Date(capsule.releaseDate) && (
+                        <div className="text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded">
+                          Opens {formatRelativeTime(capsule.releaseDate)}
+                        </div>
+                      )}
                   </div>
                 </Card>
               </Link>
@@ -177,7 +204,7 @@ const Capsules = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Capsules
+export default Capsules;

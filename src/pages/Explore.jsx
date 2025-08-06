@@ -1,60 +1,62 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import { fetchPublicCapsules } from "../store/slices/capsuleSlice"
-import Card from "../components/ui/Card"
-import Input from "../components/ui/Input"
-import Button from "../components/ui/Button"
-import LoadingSpinner from "../components/ui/LoadingSpinner"
-import Avatar from "../components/ui/Avatar"
-import { formatRelativeTime, debounce } from "../utils/helpers"
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { fetchPublicCapsules } from '../store/slices/capsuleSlice';
+import Card from '../components/ui/Card';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
+import LoadingSpinner from '../components/ui/LoadingSpinner';
+import Avatar from '../components/ui/Avatar';
+import { formatRelativeTime, debounce } from '../utils/helpers';
 
 const Explore = () => {
-  const dispatch = useDispatch()
-  const { publicCapsules, loading, publicPagination } = useSelector((state) => state.capsules)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [loadingMore, setLoadingMore] = useState(false)
+  const dispatch = useDispatch();
+  const { publicCapsules, loading, publicPagination } = useSelector(
+    (state) => state.capsules
+  );
+  const [searchTerm, setSearchTerm] = useState('');
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const debouncedSearch = debounce((search) => {
-    dispatch(fetchPublicCapsules({ search, page: 1 }))
-  }, 500)
+    dispatch(fetchPublicCapsules({ search, page: 1 }));
+  }, 500);
 
   useEffect(() => {
-    dispatch(fetchPublicCapsules())
-  }, [dispatch])
+    dispatch(fetchPublicCapsules());
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchTerm) {
-      debouncedSearch(searchTerm)
+      debouncedSearch(searchTerm);
     } else {
-      dispatch(fetchPublicCapsules({ page: 1 }))
+      dispatch(fetchPublicCapsules({ page: 1 }));
     }
-  }, [searchTerm, dispatch, debouncedSearch])
+  }, [searchTerm, dispatch, debouncedSearch]);
 
   const handleLoadMore = async () => {
     if (publicPagination.page < publicPagination.pages) {
-      setLoadingMore(true)
+      setLoadingMore(true);
       await dispatch(
         fetchPublicCapsules({
           page: publicPagination.page + 1,
           search: searchTerm,
-        }),
-      )
-      setLoadingMore(false)
+        })
+      );
+      setLoadingMore(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-red-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Explore Public Capsules</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Explore Public Capsules
+          </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover amazing memory collections shared by the community. Join public capsules and contribute your own
-            memories.
+            Discover amazing memory collections shared by the community. Join
+            public capsules and contribute your own memories.
           </p>
         </div>
 
@@ -70,10 +72,22 @@ const Explore = () => {
         {/* Featured Categories */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
-            { name: "Travel", icon: "✈️", color: "bg-blue-100 text-blue-800" },
-            { name: "Family", icon: "👨‍👩‍👧‍👦", color: "bg-green-100 text-green-800" },
-            { name: "Events", icon: "🎉", color: "bg-purple-100 text-purple-800" },
-            { name: "Nature", icon: "🌿", color: "bg-emerald-100 text-emerald-800" },
+            { name: 'Travel', icon: '✈️', color: 'bg-blue-100 text-blue-800' },
+            {
+              name: 'Family',
+              icon: '👨‍👩‍👧‍👦',
+              color: 'bg-green-100 text-green-800',
+            },
+            {
+              name: 'Events',
+              icon: '🎉',
+              color: 'bg-purple-100 text-purple-800',
+            },
+            {
+              name: 'Nature',
+              icon: '🌿',
+              color: 'bg-emerald-100 text-emerald-800',
+            },
           ].map((category) => (
             <button
               key={category.name}
@@ -94,7 +108,12 @@ const Explore = () => {
         ) : publicCapsules.length === 0 ? (
           <Card className="text-center py-12">
             <div className="text-gray-400 mb-4">
-              <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="w-16 h-16 mx-auto"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -103,8 +122,12 @@ const Explore = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No public capsules found</h3>
-            <p className="text-gray-600">Try adjusting your search terms or check back later</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No public capsules found
+            </h3>
+            <p className="text-gray-600">
+              Try adjusting your search terms or check back later
+            </p>
           </Card>
         ) : (
           <>
@@ -115,7 +138,7 @@ const Explore = () => {
                     {/* Cover Image */}
                     {capsule.coverImage && (
                       <img
-                        src={capsule.coverImage || "/placeholder.svg"}
+                        src={capsule.coverImage || '/placeholder.svg'}
                         alt={capsule.title}
                         className="w-full h-48 object-cover rounded-t-lg -m-6 mb-4"
                       />
@@ -123,15 +146,22 @@ const Explore = () => {
 
                     <div className="space-y-4">
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{capsule.title}</h3>
-                        <p className="text-sm text-gray-600 line-clamp-3">{capsule.description}</p>
+                        <h3 className="font-semibold text-gray-900 mb-1">
+                          {capsule.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 line-clamp-3">
+                          {capsule.description}
+                        </p>
                       </div>
 
                       {/* Tags */}
                       {capsule.tags && capsule.tags.length > 0 && (
                         <div className="flex flex-wrap gap-2">
                           {capsule.tags.slice(0, 3).map((tag, index) => (
-                            <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                            <span
+                              key={index}
+                              className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                            >
                               #{tag}
                             </span>
                           ))}
@@ -146,16 +176,26 @@ const Explore = () => {
                       {/* Stats */}
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <div className="flex items-center space-x-4">
-                          <span>{capsule.stats?.totalMemories || 0} memories</span>
-                          <span>{capsule.stats?.totalContributors || 0} contributors</span>
+                          <span>
+                            {capsule.stats?.totalMemories || 0} memories
+                          </span>
+                          <span>
+                            {capsule.stats?.totalContributors || 0} contributors
+                          </span>
                         </div>
                         <span>{formatRelativeTime(capsule.createdAt)}</span>
                       </div>
 
                       {/* Owner */}
                       <div className="flex items-center space-x-2">
-                        <Avatar src={capsule.owner.avatarUrl} alt={capsule.owner.name} size="small" />
-                        <span className="text-sm text-gray-600">by {capsule.owner.name}</span>
+                        <Avatar
+                          src={capsule.owner.avatarUrl}
+                          alt={capsule.owner.name}
+                          size="small"
+                        />
+                        <span className="text-sm text-gray-600">
+                          by {capsule.owner.name}
+                        </span>
                       </div>
                     </div>
                   </Card>
@@ -166,7 +206,11 @@ const Explore = () => {
             {/* Load More */}
             {publicPagination.page < publicPagination.pages && (
               <div className="text-center">
-                <Button variant="outline" onClick={handleLoadMore} loading={loadingMore}>
+                <Button
+                  variant="outline"
+                  onClick={handleLoadMore}
+                  loading={loadingMore}
+                >
                   Load More Capsules
                 </Button>
               </div>
@@ -175,7 +219,7 @@ const Explore = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Explore
+export default Explore;

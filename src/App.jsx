@@ -35,32 +35,30 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="large" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-neutral-50 to-primary-50/20">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-glow animate-pulse">
+            <span className="text-white font-bold text-xl">M</span>
+          </div>
+          <LoadingSpinner size="large" />
+          <p className="text-neutral-600 mt-4">Loading Memoryscape...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50/20">
       <Navbar />
-      <main className="pb-16">
+      <main className="pt-16">
         <Routes>
           {/* Public Routes */}
           <Route
             path="/"
             element={isAuthenticated ? <Navigate to="/dashboard" /> : <Home />}
           />
-          <Route
-            path="/login"
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
-          />
-          <Route
-            path="/register"
-            element={
-              isAuthenticated ? <Navigate to="/dashboard" /> : <Register />
-            }
-          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           <Route
             path="/dashboard"

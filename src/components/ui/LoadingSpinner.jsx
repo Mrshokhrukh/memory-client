@@ -1,9 +1,9 @@
-const LoadingSpinner = ({ size = "medium", className = "" }) => {
+const LoadingSpinner = ({ size = 'medium', className = '' }) => {
   const sizeClasses = {
-    small: "w-4 h-4",
-    medium: "w-8 h-8",
-    large: "w-12 h-12",
-  }
+    small: 'w-4 h-4',
+    medium: 'w-8 h-8',
+    large: 'w-12 h-12',
+  };
 
   return (
     <div className={`flex items-center justify-center ${className}`}>
@@ -11,7 +11,7 @@ const LoadingSpinner = ({ size = "medium", className = "" }) => {
         className={`${sizeClasses[size]} border-2 border-gray-300 border-t-primary-500 rounded-full animate-spin`}
       ></div>
     </div>
-  )
-}
+  );
+};
 
-export default LoadingSpinner
+export default LoadingSpinner;
